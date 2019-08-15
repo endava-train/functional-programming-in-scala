@@ -62,5 +62,33 @@ class ListDataTest extends FunSuite {
     assert(LinkedList.reverse(LinkedList()).toString === "Nil")
   }
 
+  test("LinkedList.reverse2") {
+    assert(LinkedList.reverse2(LinkedList(1, 2, 3)).toString === "Cons(3,Cons(2,Cons(1,Nil)))")
+    assert(LinkedList.reverse2(LinkedList(3, 2, 1)).toString === "Cons(1,Cons(2,Cons(3,Nil)))")
+    assert(LinkedList.reverse2(LinkedList(2, 1)).toString === "Cons(1,Cons(2,Nil))")
+    assert(LinkedList.reverse2(LinkedList(2)).toString === "Cons(2,Nil)")
+    assert(LinkedList.reverse2(LinkedList()).toString === "Nil")
+  }
+
+  test("LinkedList.appendViaFoldRight") {
+    assert(LinkedList.appendViaFoldRight(LinkedList(1, 2, 3), 4).toString === "Cons(1,Cons(2,Cons(3,Cons(4,Nil))))")
+    assert(LinkedList.appendViaFoldRight(LinkedList(1), 2).toString === "Cons(1,Cons(2,Nil))")
+    assert(LinkedList.appendViaFoldRight(LinkedList(), 1).toString === "Cons(1,Nil)")
+  }
+
+  test("LinkedList.concatList") {
+    assert(LinkedList.concatList(LinkedList[List[Int]](LinkedList(1, 2), LinkedList(3, 4))).toString === "Cons(1,Cons(2,Cons(3,Cons(4,Nil))))")
+    assert(LinkedList.concatList(LinkedList[List[Int]](LinkedList(4, 3), LinkedList(2, 1))).toString === "Cons(4,Cons(3,Cons(2,Cons(1,Nil))))")
+    assert(LinkedList.concatList(LinkedList[List[Int]](LinkedList(3), LinkedList(2, 1))).toString === "Cons(3,Cons(2,Cons(1,Nil)))")
+    assert(LinkedList.concatList(LinkedList[List[Int]](LinkedList(), LinkedList(2, 1))).toString === "Cons(2,Cons(1,Nil))")
+    assert(LinkedList.concatList(LinkedList[List[Int]](LinkedList(2, 1), LinkedList())).toString === "Cons(2,Cons(1,Nil))")
+
+  }
+
+  test("LinkedList.addOne") {
+    assert(LinkedList.addOne(LinkedList(1, 2, 3)).toString === "Cons(2,Cons(3,Cons(4,Nil)))")
+    assert(LinkedList.addOne(LinkedList(1)).toString === "Cons(2,Nil)")
+    assert(LinkedList.addOne(LinkedList()).toString === "Nil")
+  }
 
 }

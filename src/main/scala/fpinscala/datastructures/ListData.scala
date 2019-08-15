@@ -84,5 +84,40 @@ object LinkedList {
     }
   }
 
+  def reverse2[A](ns: List[A]): List[A] = {
+    ns match {
+      case Nil => Nil
+      case Cons(x, xs) => foldLeft(xs, Cons(x, Nil))((a, b) => Cons(b, a))
+    }
+  }
+
+  def foldLeftViaFoldRight[A,B](as: List[A], z: B)(f: (B, A) => B): B =
+    foldRight(reverse(as), z)((b, a) => f(a, b))
+
+  def foldRightViaFoldLeft[A, B](as: List[A], z: B)(f: (A, B) => B): B =
+    foldLeft(reverse(as), z)((a, b) => f(b, a))
+
+  def appendViaFoldRight[A](as: List[A], element: A): List[A] =
+    foldRight(as, Cons(element, Nil))((a, b) => Cons(a, b))
+
+  def append[A](a1: List[A], a2: List[A]): List[A] =
+    a1 match {
+      case Nil => a2
+      case Cons(h,t) => Cons(h, append(t, a2))
+    }
+
+  def concatList[A](as: List[List[A]]): List[A] = {
+    val answer = as match {
+      case Nil => Nil
+      case Cons(x, xs) => foldLeft(xs, reverse(x))((b, a) => append(reverse(a), b))
+    }
+    reverse(answer)
+  }
+
+  def addOne(as: List[Int]): List[Int] =
+    as match {
+      case Nil => Nil
+      case Cons(x, xs) => Cons(x + 1, addOne(xs))
+    }
 
 }
