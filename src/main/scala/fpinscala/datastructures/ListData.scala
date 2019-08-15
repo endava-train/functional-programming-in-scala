@@ -120,4 +120,48 @@ object LinkedList {
       case Cons(x, xs) => Cons(x + 1, addOne(xs))
     }
 
+  def doubleToString[A](as: List[Double]): List[String] =
+    as match {
+      case Nil => Nil
+      case Cons(x, xs) => Cons(x.toString, doubleToString(xs))
+    }
+
+  def map[A, B](as: List[A])(f: A => B): List[B] =
+    as match {
+      case Nil => Nil
+      case Cons(x, xs) => Cons(f(x), map(xs)(f))
+    }
+
+  def filter[A](as: List[A])(f: A => Boolean): List[A] =
+    as match {
+      case Nil => Nil
+      case Cons(x, xs) => if (f(x)) Cons(x, filter(xs)(f)) else filter(xs)(f)
+    }
+
+  def flatMap[A, B](as: List[A])(f: A => List[B]): List[B] = {
+    foldRight(map(as)(f), Nil:List[B])((a, b) => append(a, b))
+  }
+
+  def filterViaFlatMap[A](as: List[A])(f: A => Boolean): List[A] = {
+    flatMap(as)(x => if(f(x)) LinkedList(x) else LinkedList())
+  }
+
+  def sumTwoListInOne(as: List[Int], bs: List[Int]): List[Int] = {
+    as match {
+      case Nil => Nil
+      case Cons(x, xs) => bs match {
+        case Cons(y, ys) => Cons(x + y, sumTwoListInOne(xs, ys))
+      }
+    }
+  }
+
+  def zipWith[A, B, C](as: List[A], bs: List[B])(f: (A, B) => C): List[C] = {
+    as match {
+      case Nil => Nil
+      case Cons(x, xs) => bs match {
+        case Cons(y, ys) => Cons(f(x, y), zipWith(xs, ys)(f))
+      }
+    }
+  }
+
 }

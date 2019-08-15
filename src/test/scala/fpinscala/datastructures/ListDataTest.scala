@@ -82,13 +82,44 @@ class ListDataTest extends FunSuite {
     assert(LinkedList.concatList(LinkedList[List[Int]](LinkedList(3), LinkedList(2, 1))).toString === "Cons(3,Cons(2,Cons(1,Nil)))")
     assert(LinkedList.concatList(LinkedList[List[Int]](LinkedList(), LinkedList(2, 1))).toString === "Cons(2,Cons(1,Nil))")
     assert(LinkedList.concatList(LinkedList[List[Int]](LinkedList(2, 1), LinkedList())).toString === "Cons(2,Cons(1,Nil))")
-
   }
 
   test("LinkedList.addOne") {
     assert(LinkedList.addOne(LinkedList(1, 2, 3)).toString === "Cons(2,Cons(3,Cons(4,Nil)))")
     assert(LinkedList.addOne(LinkedList(1)).toString === "Cons(2,Nil)")
     assert(LinkedList.addOne(LinkedList()).toString === "Nil")
+  }
+
+  test("LinkedList.doubleToString") {
+    assert(LinkedList.doubleToString(LinkedList(1, 2, 3)).toString === "Cons(1.0,Cons(2.0,Cons(3.0,Nil)))")
+  }
+
+  test("LinkedList.map") {
+    assert(LinkedList.map(LinkedList(1, 2, 3))(x => 2 * x).toString === "Cons(2,Cons(4,Cons(6,Nil)))")
+    assert(LinkedList.map(LinkedList(1))(x => 2 * x).toString === "Cons(2,Nil)")
+  }
+
+  test("LinkedList.flatMap") {
+    assert(LinkedList.flatMap(LinkedList(1, 2))(i => LinkedList(i, i)).toString === "Cons(1,Cons(1,Cons(2,Cons(2,Nil))))")
+    assert(LinkedList.flatMap(LinkedList(2))(i => LinkedList(i, i)).toString === "Cons(2,Cons(2,Nil))")
+    assert(LinkedList.flatMap(LinkedList())(i => LinkedList(i, i)).toString === "Nil")
+  }
+
+  test("LinkedList.filterViaFlatMap") {
+    assert(LinkedList.filterViaFlatMap(LinkedList(1, 2, 3))(x => x != -1).toString === "Cons(1,Cons(2,Cons(3,Nil)))")
+    assert(LinkedList.filterViaFlatMap(LinkedList(1, 2, 3))(x => x > 1).toString === "Cons(2,Cons(3,Nil))")
+    assert(LinkedList.filterViaFlatMap(LinkedList(1, 2, 3))(x => x > 2).toString === "Cons(3,Nil)")
+    assert(LinkedList.filterViaFlatMap(LinkedList(1, 2, 3))(x => x == -1).toString === "Nil")
+  }
+
+  test("LinkedList.sumTwoListInOne") {
+    assert(LinkedList.sumTwoListInOne(LinkedList(1, 2, 3), LinkedList(4, 5, 6)).toString === "Cons(5,Cons(7,Cons(9,Nil)))")
+    assert(LinkedList.sumTwoListInOne(LinkedList(1, 2), LinkedList(3, 4)).toString === "Cons(4,Cons(6,Nil))")
+  }
+
+  test("LinkedList.zipWith") {
+    assert(LinkedList.zipWith(LinkedList(1, 2, 3), LinkedList(4, 5, 6))((a, b) => a + b).toString === "Cons(5,Cons(7,Cons(9,Nil)))")
+    assert(LinkedList.zipWith(LinkedList(1, 2), LinkedList(3, 4))((a, b) => a + b).toString === "Cons(4,Cons(6,Nil))")
   }
 
 }
