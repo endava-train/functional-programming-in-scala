@@ -36,9 +36,8 @@ class TreeTest extends FunSuite {
     assert(maxNode === 10)
     val depthTree = Tree.fold(tree)(a => 1)((a, b) => (a max b) + 1)
     assert(depthTree === 3)
-//    errors with types
-//    val mapTree = Tree.fold(tree)(x => Leaf(x + 1))((a, b) => Branch(a, b)).toString
-//    assert(mapTree === "Branch(Branch(Leaf(6),Leaf(8)),Branch(Leaf(-9),Leaf(11)))")
+    val mapTree = Tree.fold(tree)(x => { Leaf(x + 1) } : Tree[Int])((a, b) => Branch(a, b)).toString
+    assert(mapTree === "Branch(Branch(Leaf(6),Leaf(8)),Branch(Leaf(-9),Leaf(11)))")
   }
 
 }
